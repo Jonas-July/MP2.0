@@ -18,8 +18,7 @@ from pygame.locals import *
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
 def ImportVariable():
-   global laenge2,selsong,connected,security,thractive,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
-   laenge2 = 0
+   global selsong,connected,security,thractive,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
    selsong = None
    thractive = 0
    selectedlist3 = list()
@@ -713,8 +712,7 @@ def Mainwindow():
    currentversion = Label(fenster,text="Kisumsoft MusicPlayer\nVersion: InDev 1.1.01.01",bg=backg,fg=foreg)
 
    def Currentsong(selectedlist):
-      global currentsong,chsong,chosensongs,scroll2,chosesong,laenge2
-      laenge2 = len(selectedlist)
+      global currentsong,chsong,chosensongs,scroll2,chosesong
       chsong=Label(fenster,text="",bg=backg,fg=foreg)
       chosensongs=Listbox(fenster,height = int(hfen/750*21-4),bg=backg,fg=foreg,selectmode=MULTIPLE)
       scroll2 = Scrollbar(fenster,command=chosensongs.yview,bg=backg)
@@ -729,12 +727,11 @@ def Mainwindow():
       currentsong.config(text=activesong)
       currentsong.place(x=6*stdw+4*stdw2+stdw*0.08,y=6*stdh+6*stdh2,height = stdh)
 
+      laenge2 = len(selectedlist)
       for item in selectedlist:
-         zeile = laenge2
          line = str(GetSongData(item,"Titel"))
          chosensongs.insert(laenge2,line)
          laenge2 -= 1
-         continue
 
 
    ####Lieder, die man haben möchte, hinzufügen(Teil 2)
