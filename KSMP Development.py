@@ -727,11 +727,11 @@ def Mainwindow():
       currentsong.config(text=activesong)
       currentsong.place(x=6*stdw+4*stdw2+stdw*0.08,y=6*stdh+6*stdh2,height = stdh)
 
-      laenge2 = len(selectedlist)
+      line = len(selectedlist)
       for item in selectedlist:
-         line = str(GetSongData(item,"Titel"))
-         chosensongs.insert(laenge2,line)
-         laenge2 -= 1
+         content = str(GetSongData(item,"Titel"))
+         chosensongs.insert(line,content)
+         line -= 1
 
 
    ####Lieder, die man haben möchte, hinzufügen(Teil 2)
