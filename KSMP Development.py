@@ -41,7 +41,7 @@ ImportVariable()
 #############################################################################################################################################################################################################################################
 ####Bis Anmeldefenster
 def BisAnmeldung():
-   global lang4,langdicts,socket1,connected,connect
+   global currentLanguage,langdicts,socket1,connected,connect
    #Pygame einstellen
    pygame.mixer.init()
    pygame.display.init()
@@ -60,8 +60,8 @@ def BisAnmeldung():
       nl = 1
 
    lang41 = open("options/lang.txt", "r", encoding="UTF-8")
-   lang4 = lang41.read()
-   print(lang4)
+   currentLanguage = lang41.read()
+   print(currentLanguage)
    lang41.close()
 
    ####Internetverbindung erstellen
@@ -209,12 +209,12 @@ def BisAnmeldung():
          os.mkdir("langdict")
       
          def selectlang():
-            global lang4
+            global currentLanguage
             lang1 = selectable.curselection()
             lang2 = selectable.get(lang1)
-            lang4 = lang2
+            currentLanguage = lang2
             langchange = open("options/lang.txt", "w", encoding="UTF-8")
-            langchange.write(lang4)
+            langchange.write(currentLanguage)
             langchange.close()
             sprache2()
             sprache.destroy()
@@ -239,7 +239,7 @@ def BisAnmeldung():
             sprache2()
             
       selectlanguage()   
-   language = open("langdict/"+lang4+".txt", "rb")
+   language = open("langdict/"+currentLanguage+".txt", "rb")
    langdicts = pickle.load(language)
    language.close()
    try:
@@ -669,7 +669,7 @@ def Fenster():
 
    fenster.title("KS Musicplayer")
    newFrame = Label(fenster,text="",bg=backg,fg=foreg)
-   language = open("langdict/"+lang4+".txt", "rb")
+   language = open("langdict/"+currentLanguage+".txt", "rb")
    langdicts = pickle.load(language)
    language.close()
    stdw=wfen/9
@@ -1392,11 +1392,11 @@ def Mainwindow():
          global lang5
          lang5 = "PT"
       def langend():
-         global langdicts,language,lang4
+         global langdicts,language,currentLanguage
          try:
-            lang4=lang5
+            currentLanguage=lang5
             try:
-               language = open("langdict/"+lang4+".txt", "rb")
+               language = open("langdict/"+currentLanguage+".txt", "rb")
                langdicts = pickle.load(language)
             except:
                print("ERROR")
@@ -1655,7 +1655,7 @@ def Mainwindow():
 
       #Erstellen der Sprachelemente
       setlang2 = Label(fenster,text=langdicts["Sprache"]+":",bg=backg,fg=foreg)
-      langnow=Label(fenster,text=lang4,bg=backg,fg=foreg)
+      langnow=Label(fenster,text=currentLanguage,bg=backg,fg=foreg)
       choselang1 = Radiobutton(fenster,text="EN",variable=langb,value=1,command=selectlang1,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       choselang2 = Radiobutton(fenster,text="DE",variable=langb,value=2,command=selectlang2,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       choselang3 = Radiobutton(fenster,text="IT",variable=langb,value=3,command=selectlang3,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
