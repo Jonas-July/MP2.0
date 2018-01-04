@@ -19,7 +19,6 @@ from pygame.locals import *
 ####Globale Variablen
 def ImportVariable():
    global connected,security,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
-   selectedlist3 = list()
    online = False
    offlinemode = False
    IsClosed = False
@@ -32,7 +31,6 @@ def ImportVariable():
    label = 2
    dummy = tuple("h")
    first = 0
-   newreso = "1"
    lang6 = ""
    connected = 0
    
@@ -1424,36 +1422,30 @@ def Mainwindow():
       ####Einstellen der Dimensionen des Fensters
       resol2 = IntVar()
       def selectres1():
-         global newreso
-         newreso = "1920\n1080"
+         global newResolution
+         newResolution = "1920\n1080"
       def selectres2():
-         global newreso
-         newreso = "1200\n750"
+         global newResolution
+         newResolution = "1200\n750"
       def selectres3():
-         global newreso
-         newreso = "1680\n920"
+         global newResolution
+         newResolution = "1680\n920"
       def selectres4():
-         global newreso
-         newreso = "1080\n760"
+         global newResolution
+         newResolution = "1080\n760"
       def selectres5():
-         global newreso
-         newreso = "760\n600"
+         global newResolution
+         newResolution = "760\n600"
       def selectres6():
-         global newreso
-         newreso = str(wfen)+"\n"+str(hfen)+"\nFullscreen"
+         global newResolution
+         newResolution = str(wfen) + "\n" + str(hfen) + "\nFullscreen"
       def reskill():
-         global newreso
          try:
-            newreso = int(newreso)
-         except:
-            try:
-               newres2 = newreso
-               newres = open("options/dim.txt", "w")
-               newres.write(newreso+"\nNoFS")
-               newres.close()
-               settings()
-            except:
-               pass
+            newres = open("options/dim.txt", "w").write(newreso + "\nNoFS")
+         finally:
+            newres.close()
+            settings()
+
 
       #############################################################################################################################################################
 
