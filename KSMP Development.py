@@ -14,6 +14,7 @@ import pickle
 import tkinter
 import pygame
 from pygame.locals import *
+from WindowColorChange import WindowColorChangeFunction
 
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
@@ -1444,146 +1445,14 @@ def Mainwindow():
 
       ##########################
       ####Farblicher Hintergrund
-      def ChangeBG():
-         res=2
-         dauer=10
-         res2=(16**res)-1
-         dauer2=(1/(res2*7))*dauer
-         a=1
-         r=0
-         g=res2
-         b=0
-
-         while closefarbbg == 0:
-            time.sleep(dauer2)
-            if b==res2:
-                break
-            b=b+1
-            
-            r1=hex(r)[2:]
-            g1=hex(g)[2:]
-            b1=hex(b)[2:]
-            if len(r1)<res:
-                r1="0"+r1
-            if len(g1)<res:
-                g1="0"+g1
-            if len(b1)<res:
-                b1="0"+b1
-            color=r1+g1+b1
-            colour = "#"+color
-            
-            BnewFrame.config(bg=colour)
-
-         while closefarbbg == 0:
-            time.sleep(dauer2)
-            if g==0:
-               break
-            g=g-1
-           
-            r1=hex(r)[2:]
-            g1=hex(g)[2:]
-            b1=hex(b)[2:]
-            if len(r1)<res:
-                r1="0"+r1
-            if len(g1)<res:
-                g1="0"+g1
-            if len(b1)<res:
-                b1="0"+b1
-            color=r1+g1+b1
-            colour = "#"+color
-           
-            BnewFrame.config(bg=colour)
-
-         while closefarbbg == 0:
-            time.sleep(dauer2)
-            if r==res2:
-                break
-            r=r+1
-           
-            r1=hex(r)[2:]
-            g1=hex(g)[2:]
-            b1=hex(b)[2:]
-            if len(r1)<res:
-                r1="0"+r1
-            if len(g1)<res:
-                g1="0"+g1
-            if len(b1)<res:
-                b1="0"+b1
-            color=r1+g1+b1
-            colour = "#"+color
-            
-            BnewFrame.config(bg=colour)
-
-         while closefarbbg == 0:
-            time.sleep(dauer2)
-            if b==0:
-                break
-            b=b-1
-            
-            r1=hex(r)[2:]
-            g1=hex(g)[2:]
-            b1=hex(b)[2:]
-            if len(r1)<res:
-                r1="0"+r1
-            if len(g1)<res:
-                g1="0"+g1
-            if len(b1)<res:
-                b1="0"+b1
-            color=r1+g1+b1
-            colour = "#"+color
-            
-            BnewFrame.config(bg=colour)
-
-         while closefarbbg == 0:
-            time.sleep(dauer2)
-            if g==res2:
-               break
-            g=g+1
-           
-            r1=hex(r)[2:]
-            g1=hex(g)[2:]
-            b1=hex(b)[2:]
-            if len(r1)<res:
-                r1="0"+r1
-            if len(g1)<res:
-                g1="0"+g1
-            if len(b1)<res:
-                b1="0"+b1
-            color=r1+g1+b1
-           
-            colour = "#"+color
-           
-            BnewFrame.config(bg=colour)
-           
-         while closefarbbg == 0:
-            time.sleep(dauer2)
-            if r==0:
-                break
-            r=r-1
-            
-            r1=hex(r)[2:]
-            g1=hex(g)[2:]
-            b1=hex(b)[2:]
-            if len(r1)<res:
-                r1="0"+r1
-            if len(g1)<res:
-               g1="0"+g1
-            if len(b1)<res:
-                b1="0"+b1
-            color=r1+g1+b1
-            colour = "#"+color
-           
-            BnewFrame.config(bg=colour)
-
-         if closefarbbg == 1:
-            _thread.exit()   
-
-         ChangeBG()
-
+      def ChangeBG(changingButton):
+          WindowColorChangeFunction(changingButton, [0, 0, 255])
+          _thread.exit()
+          
       def closeFarbBG():
-         global closefarbbg
+         global stopColorChange
          settings()
-         closefarbbg=1
+         stopColorChange=1
          def Secure():
             global security
             security = 1
@@ -1592,16 +1461,16 @@ def Mainwindow():
          _thread.start_new_thread(Secure,())
            
       def FarbBG():
-         global BnewFrame,closefarbbg,IsActive
+         global BnewFrame,stopColorChange,IsActive
          a = 0
          while a == 0:
             if security == 1:
                break
             IsActive="FarbBG"
-            closefarbbg = 0
+            stopColorChange = 0
             BnewFrame = Button(fenster,text="",command=closeFarbBG)
             BnewFrame.place(x=0,y=0,width=wfen,height=hfen)
-            _thread.start_new_thread(ChangeBG,())
+            _thread.start_new_thread(ChangeBG,(BnewFrame,))
             a = 1
 
       #############################################################################################################################################################
