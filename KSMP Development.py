@@ -1462,16 +1462,12 @@ def Mainwindow():
            
       def FarbBG():
          global BnewFrame,stopColorChange,IsActive
-         a = 0
-         while a == 0:
-            if security == 1:
-               break
+         if security != 1:
             IsActive="FarbBG"
             stopColorChange = 0
             BnewFrame = Button(fenster,text="",command=closeFarbBG)
             BnewFrame.place(x=0,y=0,width=wfen,height=hfen)
             _thread.start_new_thread(ChangeBG,(BnewFrame,))
-            a = 1
 
       #############################################################################################################################################################
 
