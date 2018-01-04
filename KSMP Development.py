@@ -986,13 +986,10 @@ def Mainwindow():
       activethread = False
       laenge2=len(liste)
       a=random.randrange(0,laenge2)
-      liste2=list()
       ordner=liste[a]
       print(GetSongData(ordner,"Titel"))
-      liste2.append(ordner)
-      song=tuple(liste2)
       time.sleep(0.1)
-      _thread.start_new_thread(playing,(song, liste))
+      _thread.start_new_thread(playing,(ordner, liste))
 
    ######################      
    ####Nach dem Auswählen
@@ -1789,7 +1786,7 @@ def Mainwindow():
       linie = GetSongData(item,"Addinfo")
       addinfo.insert(zeile,linie)
 
-   Currentsong(selectedlist3)
+   Currentsong(list())
    
    #Festsetzen
    songlist.place(x=0,y=0,width=stdw,height=stdh)
