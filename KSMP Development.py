@@ -18,8 +18,7 @@ from pygame.locals import *
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
 def ImportVariable():
-   global connected,security,thractive,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
-   thractive = 0
+   global connected,security,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
    selectedlist3 = list()
    online = False
    offlinemode = False
@@ -1000,7 +999,7 @@ def Mainwindow():
    ######################      
    ####Nach dem Auswählen
    def starting():
-      global thractive,selectedlist3,laenge2,chosensongs,besetzt,z,first,activethread
+      global selectedlist3,laenge2,chosensongs,besetzt,z,first,activethread
       if first == 0:
          first = 1
          besetzt = 0
