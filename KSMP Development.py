@@ -18,7 +18,7 @@ from pygame.locals import *
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
 def ImportVariable():
-   global connected,security,vol2,IsClosed,selectedlist3,paused,label,online,offlinemode,dummy,first,activesong,backg,foreg
+   global connected,security,vol2,IsClosed,paused,label,online,offlinemode,first,activesong,backg,foreg
    online = False
    offlinemode = False
    IsClosed = False
@@ -29,7 +29,6 @@ def ImportVariable():
    paused = False
    vol2 = 0
    label = 2
-   dummy = tuple("h")
    first = 0
    connected = 0
    
@@ -833,7 +832,7 @@ def Mainwindow():
    #############################
    ####Eigentliche Abspielengine
    def playing(ordner, listOfSongs):
-      global activethread,activesong,checkstate,dummy,ordner10,paused
+      global activethread,activesong,checkstate,ordner10,paused
       if activethread == False:
          activethread = True
          ordner10 = ordner
@@ -891,7 +890,7 @@ def Mainwindow():
             time=str(int(zeit2))+":"+str(sek1)
             return time
                
-         def time2(ordner,hi):
+         def time2(ordner):
             global checkstate,active,label,liedzeit,timer
             def Has():
                global has2,liedzeit
@@ -962,7 +961,7 @@ def Mainwindow():
                time.sleep(1/120)
                
             _thread.exit()
-         _thread.start_new_thread(time2,(ordner,dummy))
+         _thread.start_new_thread(time2,(ordner,))
          #has.place(x=6.35*stdw+4*stdw2+stdw*0.1,y=6.75*stdh+7*stdh2,width=stdw*0.25)
          time.sleep(1)
          while checkstate >= 1:
@@ -996,7 +995,7 @@ def Mainwindow():
          first = 1
          besetzt = 0
 
-         def variable(hi):
+         def variable():
             global first
             time.sleep(3)
             first=0
@@ -1015,7 +1014,7 @@ def Mainwindow():
                selectedlist2 = selectedlist
                play(selectedlist2)
                besetzt = 1
-               _thread.start_new_thread(variable,(dummy))
+               _thread.start_new_thread(variable,())
             else:
                dora = elefant
 
@@ -1040,7 +1039,7 @@ def Mainwindow():
 
                      play(selectedlist3)
                      besetzt = 1
-                     _thread.start_new_thread(variable,(dummy))
+                     _thread.start_new_thread(variable,)
                      
                   elif len(selauthors) == 0:
                      dara = elefant
@@ -1062,10 +1061,10 @@ def Mainwindow():
                            selectedlist3=selectedlist
                            play(selectedlist3)
                            besetzt = 1
-                           _thread.start_new_thread(variable,(dummy))
+                           _thread.start_new_thread(variable,())
                            
                         else:
-                           _thread.start_new_thread(variable,(dummy))
+                           _thread.start_new_thread(variable,())
                      except:
                         print("Something happened (not)")
       elif first > 0:
