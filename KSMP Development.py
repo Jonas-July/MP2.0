@@ -18,7 +18,7 @@ from pygame.locals import *
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
 def ImportVariable():
-   global connected,security,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
+   global connected,security,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg
    online = False
    offlinemode = False
    IsClosed = False
@@ -1357,8 +1357,7 @@ def Mainwindow():
          vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
          pygame.mixer.music.set_volume(vol)
          
-      def CV():
-         global cvtext
+      def CV(): #not implemented
          cv = open("options/CustomVolume.txt", "r", encoding="UTF-8")
          cv2 = cv.readline()
          cv.close()
