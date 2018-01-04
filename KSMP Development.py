@@ -19,11 +19,11 @@ from WindowColorChange import WindowColorChangeFunction
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
 def ImportVariable():
-   global connected,security,vol2,IsClosed,paused,label,online,offlinemode,first,activesong,backg,foreg
+   global connected, isSecured, vol2, IsClosed, paused, label, online, offlinemode, first, activesong, backg, foreg
    online = False
    offlinemode = False
    IsClosed = False
-   security = 0
+   isSecured = False
    activesong = 50*" "
    backg = "#10186B"
    foreg = "white"
@@ -1444,7 +1444,7 @@ def Mainwindow():
 
 
       ##########################
-      ####Farblicher Hintergrund
+      ####Colored Background
       def ChangeBG(changingButton):
           WindowColorChangeFunction(changingButton, [0, 0, 255])
           _thread.exit()
@@ -1452,21 +1452,23 @@ def Mainwindow():
       def closeFarbBG():
          global stopColorChange
          settings()
-         stopColorChange=1
-         def Secure():
-            global security
-            security = 1
+         stopColorChange = True
+         
+         def secureNotToFrequentChangesOfColor():
+            global isSecured
+            isSecured = True
             time.sleep(0.5)
-            security = 0
-         _thread.start_new_thread(Secure,())
+            isSecured = False
+            
+         _thread.start_new_thread(secureNotToFrequentChangesOfColor,())
            
       def FarbBG():
-         global BnewFrame,stopColorChange,IsActive
-         if security != 1:
+         global BnewFrame, stopColorChange, IsActive
+         if isSecured != True:
             IsActive="FarbBG"
-            stopColorChange = 0
-            BnewFrame = Button(fenster,text="",command=closeFarbBG)
-            BnewFrame.place(x=0,y=0,width=wfen,height=hfen)
+            stopColorChange = False
+            BnewFrame = Button(fenster, text = "", command = closeFarbBG)
+            BnewFrame   .place(x = 0, y = 0, width = wfen, height = hfen)
             _thread.start_new_thread(ChangeBG,(BnewFrame,))
 
       #############################################################################################################################################################
