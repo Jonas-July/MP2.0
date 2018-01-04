@@ -836,8 +836,8 @@ def Mainwindow():
 
    #############################
    ####Eigentliche Abspielengine
-   def playing(ordner):
-      global activethread,selectedlist3,activesong,checkstate,dummy,ordner10,paused
+   def playing(ordner, listOfSongs):
+      global activethread,activesong,checkstate,dummy,ordner10,paused
       if activethread == False:
          activethread = True
          ordner10 = ordner
@@ -978,13 +978,13 @@ def Mainwindow():
             else:
                checkstate = checkstate - 0.1
 
-         play(selectedlist3)
+         play(listOfSongs)
          _thread.exit()
 
    ##########################################################################################################################################################################################################################
       
    def play(liste):
-      global activethread,selectedlist3
+      global activethread
       activethread = False
       laenge2=len(liste)
       a=random.randrange(0,laenge2)
@@ -994,12 +994,12 @@ def Mainwindow():
       liste2.append(ordner)
       song=tuple(liste2)
       time.sleep(0.1)
-      _thread.start_new_thread(playing,song)
+      _thread.start_new_thread(playing,(song, liste))
 
    ######################      
    ####Nach dem Auswählen
    def starting():
-      global selectedlist3,laenge2,chosensongs,besetzt,z,first,activethread
+      global chosensongs,besetzt,z,first,activethread
       if first == 0:
          first = 1
          besetzt = 0
