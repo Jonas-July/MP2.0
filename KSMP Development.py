@@ -18,8 +18,7 @@ from pygame.locals import *
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
 def ImportVariable():
-   global selsong,connected,security,thractive,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
-   selsong = None
+   global connected,security,thractive,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg,cvtext
    thractive = 0
    selectedlist3 = list()
    online = False
