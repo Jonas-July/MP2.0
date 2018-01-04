@@ -984,8 +984,7 @@ def Mainwindow():
    def play(liste):
       global activethread
       activethread = False
-      laenge2=len(liste)
-      a=random.randrange(0,laenge2)
+      a=random.randrange(0,len(liste))
       ordner=liste[a]
       print(GetSongData(ordner,"Titel"))
       time.sleep(0.1)
