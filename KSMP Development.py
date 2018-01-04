@@ -18,7 +18,7 @@ from pygame.locals import *
 #############################################################################################################################################################################################################################################
 ####Globale Variablen
 def ImportVariable():
-   global connected,security,vol2,IsClosed,selectedlist3,paused,label,lang6,online,offlinemode,dummy,first,activesong,backg,foreg
+   global connected,security,vol2,IsClosed,selectedlist3,paused,label,online,offlinemode,dummy,first,activesong,backg,foreg
    online = False
    offlinemode = False
    IsClosed = False
@@ -31,7 +31,6 @@ def ImportVariable():
    label = 2
    dummy = tuple("h")
    first = 0
-   lang6 = ""
    connected = 0
    
 ImportVariable()
@@ -455,7 +454,6 @@ def anmeldung():
 anmeldung()
 
 def Anforderung_Daten():
-   global lang6
    #Anforderung von Daten
    Data = "Data~age,lang,favor,group,chronik"
    socket1.sendall(bytes(Data,"UTF-8"))
