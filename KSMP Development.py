@@ -1396,31 +1396,16 @@ def Mainwindow():
 
       ###########################################
       ####Einstellen der Dimensionen des Fensters
-      resol2 = IntVar()
-      def selectres1():
+      def selectNewResolution(resolution):
          global newResolution
-         newResolution = "1920\n1080"
-      def selectres2():
-         global newResolution
-         newResolution = "1200\n750"
-      def selectres3():
-         global newResolution
-         newResolution = "1680\n920"
-      def selectres4():
-         global newResolution
-         newResolution = "1080\n760"
-      def selectres5():
-         global newResolution
-         newResolution = "760\n600"
-      def selectres6():
-         global newResolution
-         newResolution = str(wfen) + "\n" + str(hfen) + "\nFullscreen"
-      def reskill():
+         newResolution = resolution
+         
+      def setNewResolution():
          try:
-            newres = open("options/dim.txt", "w")
-            newres.write(newResolution + "\nNoFS")
+            rfile = open("options/dim.txt", "w")
+            rfile.write(newResolution + "\nNoFS")
          finally:
-            newres.close()
+            rfile.close()
             settings()
 
 
@@ -1573,18 +1558,19 @@ def Mainwindow():
                    x = 1.5*stdw, y = 5*stdh + 5*stdh2, width = 1/2*stdw, height = stdh)
 
       #Creation of resolution widgets
-      supportedResolutions = ["1920x1080", "1200x750", "1680x920", "1080x760", "760x600", langdicts["Fullscreen"]]
+      supportedResolutions = ["1920x1080", "1200x750", "1680x920", "1080x760", "760x600", str(wfen) + "x" + str(hfen) + "\nFullscreen"]
       createLabel(fenster, text = langdicts["Auflösung"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 7*stdh + 7*stdh2, width = None, height = stdh)
       createLabel(fenster, text = str(wfen) + "x" + str(hfen) , bg = backg, fg = foreg, x = 1.5*stdw, y = 7*stdh + 7*stdh2, width = stdw, height = stdh)
       
-    #  createRadioButtons(fenster, texts = supportedResolutions, command = setNewLanguage, indicatoron = False, bg = backg, fg = foreg,
+      resVar = IntVar()
+    #  createRadioButtons(fenster, texts = supportedResolutions, command = setNewResolution, indicatoron = False, bg = backg, fg = foreg,
     #                     startX = 1.5*stdw + 0.5*stdw + stdw2, startY = 4*stdh + 4*stdh2, incX = 0.5*stdw + 1*stdw2, incY = 0, width = 1/2*stdw, height = stdh)
-      resolbutton1 = Radiobutton(fenster,text="1920x1080",variable=resol2,value=1,command=selectres1,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton2 = Radiobutton(fenster,text="1200x750",variable=resol2,value=2,command=selectres2,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton3 = Radiobutton(fenster,text="1680x920",variable=resol2,value=3,command=selectres3,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton4 = Radiobutton(fenster,text="1080x760",variable=resol2,value=4,command=selectres4,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton5 = Radiobutton(fenster,text="760x600",variable=resol2,value=5,command=selectres5,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton6 = Radiobutton(fenster,text=langdicts["Fullscreen"],variable=resol2,value=6,command=selectres6,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton1 = Radiobutton(fenster,text="1920x1080",variable=resVar,value=1,command=lambda: selectNewResolution("1920\n1080"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton2 = Radiobutton(fenster,text="1200x750",variable=resVar,value=2,command=lambda: selectNewResolution("1200\n750"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton3 = Radiobutton(fenster,text="1680x920",variable=resVar,value=3,command=lambda: selectNewResolution("1680\n920"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton4 = Radiobutton(fenster,text="1080x760",variable=resVar,value=4,command=lambda: selectNewResolution("1080\n760"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton5 = Radiobutton(fenster,text="760x600",variable=resVar,value=5,command=lambda: selectNewResolution("760\n600"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton6 = Radiobutton(fenster,text=langdicts["Fullscreen"],variable=resVar,value=6,command=lambda: selectNewResolution(str(wfen) + "\n" + str(hfen) + "\nFullscreen"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       resolbutton1.place(x=1.5*stdw+2*stdw2+stdw,y=7*stdh+7*stdh2,width=stdw,height=stdh)
       resolbutton2.place(x=1.5*stdw+4*stdw2+2*stdw,y=7*stdh+7*stdh2,width=stdw,height=stdh)
       resolbutton3.place(x=1.5*stdw+6*stdw2+3*stdw,y=7*stdh+7*stdh2,width=stdw,height=stdh)
@@ -1592,7 +1578,7 @@ def Mainwindow():
       resolbutton5.place(x=1.5*stdw+4*stdw2+2*stdw,y=8*stdh+8*stdh2,width=stdw,height=stdh)
       resolbutton6.place(x=1.5*stdw+6*stdw2+3*stdw,y=8*stdh+8*stdh2,width=stdw,height=stdh)
 
-      createButton(fenster, text = langdicts["Auswählen"], command = reskill, bg = backg, fg = foreg,
+      createButton(fenster, text = langdicts["Auswählen"], command = setNewResolution, bg = backg, fg = foreg,
                       x = 1.5*stdw, y = 8*stdh + 8*stdh2, width = stdw, height = stdh)
 
       #Erstellen des Farbigen Hintergrundes
