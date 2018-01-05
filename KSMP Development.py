@@ -1373,41 +1373,26 @@ def Mainwindow():
                
       ##########################
       ####Einstellen der Sprache
-      langb=IntVar()
-      def selectlang1():
-         global lang5
-         lang5 = "EN"
-      def selectlang2():
-         global lang5
-         lang5 = "DE"
-      def selectlang3():
-         global lang5
-         lang5 = "IT"
-      def selectlang4():
-         global lang5
-         lang5 = "ES"
-      def selectlang5():
-         global lang5
-         lang5 = "FR"
-      def selectlang6():
-         global lang5
-         lang5 = "PT"
+      langb = IntVar()
+      
+      def setNewLanguage(langCode):
+         global tempLang
+         tempLang = langCode
+
       def langend():
-         global langdicts,language,currentLanguage
+         global langdicts, language, currentLanguage
          try:
-            currentLanguage=lang5
+            language = open("langdict/" + tempLang + ".txt", "rb")
+            langdicts = pickle.load(language)
             try:
-               language = open("langdict/"+currentLanguage+".txt", "rb")
-               langdicts = pickle.load(language)
-            except:
-               print("ERROR")
-            newlang=open("options/lang.txt", "w")
-            newlang.write(lang5)
-            newlang.close()
-            settings()
+               newlang = open("options/lang.txt", "w")
+               newlang.write(tempLang)
+               currentLanguage = tempLang
+            finally:
+               newlang.close()
+               settings()
+         finally:
             language.close()
-         except:
-            pass
 
       #######################################################################################################################################################
          
@@ -1523,12 +1508,12 @@ def Mainwindow():
       #Erstellen der Sprachelemente
       setlang2 = Label(fenster,text=langdicts["Sprache"]+":",bg=backg,fg=foreg)
       langnow=Label(fenster,text=currentLanguage,bg=backg,fg=foreg)
-      choselang1 = Radiobutton(fenster,text="EN",variable=langb,value=1,command=selectlang1,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      choselang2 = Radiobutton(fenster,text="DE",variable=langb,value=2,command=selectlang2,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      choselang3 = Radiobutton(fenster,text="IT",variable=langb,value=3,command=selectlang3,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      choselang4 = Radiobutton(fenster,text="ES",variable=langb,value=4,command=selectlang4,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      choselang5 = Radiobutton(fenster,text="FR",variable=langb,value=5,command=selectlang5,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      choselang6 = Radiobutton(fenster,text="PT",variable=langb,value=6,command=selectlang6,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      choselang1 = Radiobutton(fenster,text="EN",variable=langb,value=1,command=lambda: setNewLanguage("EN"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      choselang2 = Radiobutton(fenster,text="DE",variable=langb,value=2,command=lambda: setNewLanguage("DE"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      choselang3 = Radiobutton(fenster,text="IT",variable=langb,value=3,command=lambda: setNewLanguage("IT"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      choselang4 = Radiobutton(fenster,text="ES",variable=langb,value=4,command=lambda: setNewLanguage("ES"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      choselang5 = Radiobutton(fenster,text="FR",variable=langb,value=5,command=lambda: setNewLanguage("FR"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      choselang6 = Radiobutton(fenster,text="PT",variable=langb,value=6,command=lambda: setNewLanguage("PT"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       lang = Button(fenster,text=langdicts["Auswählen"],command=langend,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
 
       #Erstellen der Dimensionselemente
