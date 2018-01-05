@@ -1373,8 +1373,6 @@ def Mainwindow():
                
       ##########################
       ####Einstellen der Sprache
-      langb = IntVar()
-      
       def setNewLanguage(langCode):
          global tempLang
          tempLang = langCode
@@ -1395,7 +1393,7 @@ def Mainwindow():
             language.close()
 
       #######################################################################################################################################################
-         
+
       ###########################################
       ####Einstellen der Dimensionen des Fensters
       resol2 = IntVar()
@@ -1419,7 +1417,8 @@ def Mainwindow():
          newResolution = str(wfen) + "\n" + str(hfen) + "\nFullscreen"
       def reskill():
          try:
-            newres = open("options/dim.txt", "w").write(newreso + "\nNoFS")
+            newres = open("options/dim.txt", "w")
+            newres.write(newResolution + "\nNoFS")
          finally:
             newres.close()
             settings()
@@ -1485,119 +1484,140 @@ def Mainwindow():
          else:
             print("Error2")
 
-      ######################################
-      ####Erstellen der Einstellungselemente      
-      newFrame = Label(fenster,text="",bg=backg,fg=foreg)
-      songs = Button(fenster,text=langdicts["Eigene Lieder"],command=Mainwindow,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      songlist = Button(fenster,text = langdicts["Neue Lieder"],command=newsongs,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      bsettings = Label(fenster,text = langdicts["Einstellungen"],bg=backg,fg=foreg)
-      Height = Label(fenster,text="",bg=backg,fg=foreg)
-      bsupport = Button(fenster,text = langdicts["Hilfe und Support"],command = support,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      bprofile = Button(fenster,text = langdicts["Profil"],command = profile,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      
-      #Erstellen der Lautstärkeelemente
-      setvolume = Label(fenster, text = langdicts["Lautstärke"]+":",bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      vol1 = Label(fenster,text=int(vol*100),bg=backg,fg=foreg)
-      mehr = Button(fenster,text = "+1",command=lauter,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      weniger = Button(fenster,text = "-1",command=leiser,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      mehr10 = Button(fenster,text = "+10",command = lauter2,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      weniger10 = Button(fenster,text = "-10",command = leiser2,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      anaus = Button(fenster,text = langdicts["Anaus"],command = AnAus,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      cvchange = Button(fenster,text = langdicts[cvtextvar],command = CV,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      ################################
+      ####create functions for widgets      
 
-      #Erstellen der Sprachelemente
-      setlang2 = Label(fenster,text=langdicts["Sprache"]+":",bg=backg,fg=foreg)
-      langnow=Label(fenster,text=currentLanguage,bg=backg,fg=foreg)
+      def createLabel(master, text, bg, fg, x, y, width, height):
+
+         label = Label(master, text = text, bg = bg, fg = fg)
+         label.place(x = x, y = y, width = width, height = height)
+         
+         return label
+
+
+      def createButton(master, text, command, bg, fg, x, y, width, height):
+
+         button = Button(master, text = text, command = command,
+                         bg = bg, fg = fg, activebackground = bg, activeforeground = fg)
+         button.place(x = x, y = y, width = width, height = height)
+         
+         return button
+
+
+      def createRadioButtons(master, texts, command, indicatoron, bg, fg, startX, startY, incX, incY, width, height):
+
+         variable = IntVar()
+         for index in range(len(texts)):
+            text = texts[index]
+            realCommand = lambda: command(text)
+            radioButton = Radiobutton(master, text = texts[index], variable = variable, value = index+1, command = realCommand, indicatoron = indicatoron,
+                                      bg = bg, fg = fg, activebackground = bg, activeforeground = fg)
+            radioButton.place(x = startX + index*incX, y = startY + index*incY, width = width, height = height)
+
+
+      ################################
+      ####Creation of settings widgets
+      
+      createLabel(fenster, text = "Clear old frame"         , bg = backg, fg = backg, x = 0               , y = 0, width = wfen, height = hfen)
+      createLabel(fenster, text = langdicts["Einstellungen"], bg = backg, fg = foreg, x = 2*stdw + 2*stdw2, y = 0, width = stdw, height = stdh)
+      
+      createButton(fenster, text = langdicts["Eigene Lieder"], command = Mainwindow, bg = backg, fg = foreg,
+                   x = stdw + stdw2    , y = 0, width = stdw, height = stdh)
+      createButton(fenster, text = langdicts["Neue Lieder"], command = newsongs, bg = backg, fg = foreg, 
+                   x = 0               , y = 0, width = stdw, height = stdh)
+      createButton(fenster, text = langdicts["Hilfe und Support"], command = support, bg = backg, fg = foreg, 
+                   x = 4*stdw + 4*stdw2, y = 0, width = stdw, height = stdh)
+      createButton(fenster, text = langdicts["Profil"], command = profile, bg = backg, fg = foreg,
+                   x = 3*stdw + 3*stdw2, y = 0, width = stdw, height = stdh)
+      
+      #Creation of volume widgets
+      createLabel(fenster, text = langdicts["Lautstärke"] + ":", bg = backg, fg = foreg, x = 0.5*stdw            , y = 2*stdh + 2*stdh2, height = stdh, width = None    )
+      createLabel(fenster, text = int(vol*100)                 , bg = backg, fg = foreg, x = 2.3*stdw + 1.5*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 2/5*stdw)
+      
+      createButton(fenster, text = "+1" , command = lauter , bg = backg, fg = foreg, 
+                   x = 1.5*stdw + 3*0.4*stdw + 2*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 2/5*stdw)
+      createButton(fenster, text = "-1" , command = leiser , bg = backg, fg = foreg, 
+                   x = 1.5*stdw + 1*0.4*stdw + 1*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 2/5*stdw)
+      createButton(fenster, text = "+10", command = lauter2, bg = backg, fg = foreg,
+                   x = 1.5*stdw + 4*0.4*stdw + 3*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 2/5*stdw)
+      createButton(fenster, text = "-10", command = leiser2, bg = backg, fg = foreg,
+                   x = 1.5*stdw + 0*0.4*stdw + 0*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 2/5*stdw)
+      
+      createButton(fenster, text = langdicts["Anaus"]  , command = AnAus, bg = backg, fg = foreg,
+                   x = 1.5*stdw + 5*0.4*stdw + 4*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 4/5*stdw)
+      createButton(fenster, text = langdicts[cvtextvar], command = CV   , bg = backg, fg = foreg,
+                   x = 2.3*stdw + 5*0.4*stdw + 5*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 4/5*stdw)
+
+      #Creation of language widgets
+      supportedLanguages = ["EN", "DE", "IT", "ES", "FR"]
+      createLabel(fenster, text = langdicts["Sprache"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 4*stdh + 4*stdh2, width = None    , height = stdh)
+      createLabel(fenster, text = currentLanguage           , bg = backg, fg = foreg, x = 1.5*stdw, y = 4*stdh + 4*stdh2, width = 1/2*stdw, height = stdh)
+      
+    #  createRadioButtons(fenster, texts = supportedLanguages, command = setNewLanguage, indicatoron = False, bg = backg, fg = foreg,
+    #                     startX = 1.5*stdw + 0.5*stdw + stdw2, startY = 4*stdh + 4*stdh2, incX = 0.5*stdw + 1*stdw2, incY = 0, width = 1/2*stdw, height = stdh)
+      langb = IntVar()
       choselang1 = Radiobutton(fenster,text="EN",variable=langb,value=1,command=lambda: setNewLanguage("EN"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       choselang2 = Radiobutton(fenster,text="DE",variable=langb,value=2,command=lambda: setNewLanguage("DE"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       choselang3 = Radiobutton(fenster,text="IT",variable=langb,value=3,command=lambda: setNewLanguage("IT"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       choselang4 = Radiobutton(fenster,text="ES",variable=langb,value=4,command=lambda: setNewLanguage("ES"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       choselang5 = Radiobutton(fenster,text="FR",variable=langb,value=5,command=lambda: setNewLanguage("FR"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       choselang6 = Radiobutton(fenster,text="PT",variable=langb,value=6,command=lambda: setNewLanguage("PT"),indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      lang = Button(fenster,text=langdicts["Auswählen"],command=langend,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-
-      #Erstellen der Dimensionselemente
-      bresolution = Label(fenster,text=langdicts["Auflösung"]+":",bg=backg,fg=foreg)
-      resolnow = Label(fenster,text=str(wfen)+"x"+str(hfen),bg=backg,fg=foreg)
-      resolbutton1 = Radiobutton(fenster,text="1920x1080",variable=resol2,value=1,command=selectres1,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton2 = Radiobutton(fenster,text="1200x750",variable=resol2,value=2,command=selectres2,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton3 = Radiobutton(fenster,text="1680x920",variable=resol2,value=3,command=selectres3,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton4 = Radiobutton(fenster,text="1080x760",variable=resol2,value=4,command=selectres4,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton5 = Radiobutton(fenster,text="760x600",variable=resol2,value=5,command=selectres5,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      resolbutton6 = Radiobutton(fenster,text=langdicts["Fullscreen"],variable=resol2,value=6,command=selectres6,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      selres = Button(fenster,text=langdicts["Auswählen"],command=reskill,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-
-      #Erstellen des Farbigen Hintergrundes
-      Farbbg = Button(fenster,text=langdicts["Aktivieren"],command=FarbBG,bg=backg,fg=foreg)
-      Farbset = Label(fenster,text=langdicts["FH"]+":",bg=backg,fg=foreg)
-
-      #Erstellen der Verbindungselemente
-      testforconnection = Label(fenster,text=langdicts["Verbinden"]+":",bg=backg,fg=foreg)
-      connect = open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0]
-      if connect == "True":
-         connecttest = Button(fenster,text=langdicts["NVerbinden"],command=testforconnect,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-      else:
-         connecttest = Button(fenster,text=langdicts["Verbinden"],command=testforconnect2,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
-
-      if connect == "True":
-         connectionnow = Label(fenster,text=langdicts["Verbinden"],bg=backg,fg=foreg)
-      else:
-         connectionnow = Label(fenster,text=langdicts["NVerbinden"],bg=backg,fg=foreg)
-         
-      ################################################################################################################################################################################################################################
-
-      ################################################
-      ####Platzieren der Elemente in den Einstellungen      
-      newFrame.place(x=0,y=0,width=wfen,height=hfen)
-      songlist.place(x=0,y=0,width=stdw,height=stdh)
-      songs.place(x=stdw+stdw2,y=0,width=stdw,height=stdh)
-      bsettings.place(x=2*stdw+2*stdw2,y=0,width=stdw,height=stdh)
-      Height.place(x=0,y=stdh+stdh2,width=wfen,height=stdh)
-      bprofile.place(x=3*stdw+3*stdw2,y=0,width=stdw,height=stdh)
-      bsupport.place(x=4*stdw+4*stdw2,y=0,width=stdw,height=stdh)
-
-      #Platzieren der Lautstärkeelemente
-      setvolume.place(x=0.5*stdw,y=2*stdh+2*stdh2,height=stdh)
-      vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-      weniger.place(x=1.5*stdw+stdw*0.4+stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-      mehr.place(x=1.5*stdw+3*stdw*0.4+2*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-      mehr10.place(x=1.5*stdw+4*stdw*0.4+3*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-      weniger10.place(x=1.5*stdw,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-      anaus.place(x=1.5*stdw+5*stdw*0.4+4*stdw2,y=2*stdh+2*stdh2,height=stdh,width=4*stdw/5)
-      cvchange.place(y=2*stdh+2*stdh2,height=stdh,width=4*stdw/5,x=2.3*stdw+5*stdw*0.4+5*stdw2)
-
-      #Platzieren der Sprachenelemente
-      setlang2.place(x=0.5*stdw,y=4*stdh+4*stdh2,height=stdh)
-      langnow.place(x=1.5*stdw,y=4*stdh+4*stdh2,width=stdw/2,height=stdh)
       choselang1.place(x=1.5*stdw+stdw2+0.5*stdw,y=4*stdh+4*stdh2,width=stdw/2,height=stdh)
       choselang2.place(x=1.5*stdw+2*stdw2+stdw,y=4*stdh+4*stdh2,width=stdw/2,height=stdh)
       choselang3.place(x=1.5*stdw+3*stdw2+1.5*stdw,y=4*stdh+4*stdh2,width=stdw/2,height=stdh)
       choselang4.place(x=1.5*stdw+4*stdw2+2*stdw,y=4*stdh+4*stdh2,width=stdw/2,height=stdh)
       choselang5.place(x=1.5*stdw+5*stdw2+2.5*stdw,y=4*stdh+4*stdh2,width=stdw/2,height=stdh)
       choselang6.place(x=1.5*stdw+6*stdw2+3*stdw,y=4*stdh+4*stdh2,width=stdw/2,height=stdh)
-      lang.place(x=1.5*stdw,y=5*stdh+5*stdh2,width=stdw/2,height=stdh)
 
-      #Platzieren der Dimensionselemente
-      bresolution.place(x=0.5*stdw,y=7*stdh+7*stdh2,height=stdh)
-      resolnow.place(x=1.5*stdw,y=7*stdh+7*stdh2,width=stdw,height=stdh)
+      createButton(fenster, text = langdicts["Auswählen"], command = langend, bg = backg, fg = foreg,
+                   x = 1.5*stdw, y = 5*stdh + 5*stdh2, width = 1/2*stdw, height = stdh)
+
+      #Creation of resolution widgets
+      supportedResolutions = ["1920x1080", "1200x750", "1680x920", "1080x760", "760x600", langdicts["Fullscreen"]]
+      createLabel(fenster, text = langdicts["Auflösung"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 7*stdh + 7*stdh2, width = None, height = stdh)
+      createLabel(fenster, text = str(wfen) + "x" + str(hfen) , bg = backg, fg = foreg, x = 1.5*stdw, y = 7*stdh + 7*stdh2, width = stdw, height = stdh)
+      
+    #  createRadioButtons(fenster, texts = supportedResolutions, command = setNewLanguage, indicatoron = False, bg = backg, fg = foreg,
+    #                     startX = 1.5*stdw + 0.5*stdw + stdw2, startY = 4*stdh + 4*stdh2, incX = 0.5*stdw + 1*stdw2, incY = 0, width = 1/2*stdw, height = stdh)
+      resolbutton1 = Radiobutton(fenster,text="1920x1080",variable=resol2,value=1,command=selectres1,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton2 = Radiobutton(fenster,text="1200x750",variable=resol2,value=2,command=selectres2,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton3 = Radiobutton(fenster,text="1680x920",variable=resol2,value=3,command=selectres3,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton4 = Radiobutton(fenster,text="1080x760",variable=resol2,value=4,command=selectres4,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton5 = Radiobutton(fenster,text="760x600",variable=resol2,value=5,command=selectres5,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
+      resolbutton6 = Radiobutton(fenster,text=langdicts["Fullscreen"],variable=resol2,value=6,command=selectres6,indicatoron=False,bg=backg,fg=foreg,activebackground=backg,activeforeground=foreg)
       resolbutton1.place(x=1.5*stdw+2*stdw2+stdw,y=7*stdh+7*stdh2,width=stdw,height=stdh)
       resolbutton2.place(x=1.5*stdw+4*stdw2+2*stdw,y=7*stdh+7*stdh2,width=stdw,height=stdh)
       resolbutton3.place(x=1.5*stdw+6*stdw2+3*stdw,y=7*stdh+7*stdh2,width=stdw,height=stdh)
       resolbutton4.place(x=1.5*stdw+2*stdw2+stdw,y=8*stdh+8*stdh2,width=stdw,height=stdh)
       resolbutton5.place(x=1.5*stdw+4*stdw2+2*stdw,y=8*stdh+8*stdh2,width=stdw,height=stdh)
       resolbutton6.place(x=1.5*stdw+6*stdw2+3*stdw,y=8*stdh+8*stdh2,width=stdw,height=stdh)
-      selres.place(x=1.5*stdw,y=8*stdh+8*stdh2,width=stdw,height=stdh)
 
-      #Platzieren des farbigen Hintergrundes
-      Farbbg.place(x=1.5*stdw,y=10*stdh+10*stdh2,width=stdw,height=stdh)
-      Farbset.place(x=0.5*stdw,y=10*stdh+10*stdh2,height=stdh)
+      createButton(fenster, text = langdicts["Auswählen"], command = reskill, bg = backg, fg = foreg,
+                      x = 1.5*stdw, y = 8*stdh + 8*stdh2, width = stdw, height = stdh)
 
-      #Platzieren der Verbindungselemente
-      testforconnection.place(x=0.5*stdw,y=12*stdh+12*stdh2,height=stdh)
-      connecttest.place(x=1.5*stdw+2*stdw2+stdw,y=12*stdh+12*stdh2,width=stdw,height=stdh)
-      connectionnow.place(x=1.5*stdw,y=12*stdh+12*stdh2,width=stdw,height=stdh)
+      #Erstellen des Farbigen Hintergrundes
+      createButton(fenster, text = langdicts["Aktivieren"], command = FarbBG, bg = backg, fg = foreg, 
+                   x = 1.5*stdw, y = 10*stdh + 10*stdh2, width = stdw, height = stdh)
+      createLabel(fenster, text = langdicts["FH"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 10*stdh + 10*stdh2, width = None, height = stdh)
 
-      ################################################################################################################################################################################################
+      #Erstellen der Verbindungselemente
+      createLabel(fenster, text = langdicts["Verbinden"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 12*stdh + 12*stdh2, width = None, height = stdh)
+      cfile = open("options/testforconnect.txt", "r", encoding="UTF-8")
+      connect = cfile.readlines()[0]
+      cfile.close()
+      connectStatus = ""
+      connectChange = ""
+      if connect == "True":
+          connectStatus = "Verbinden"
+          connectChange = "NVerbinden"
+      else:
+          connectStatus = "NVerbinden"
+          connectChange = "Verbinden"
+          
+      connectionnow = createLabel(fenster, text = langdicts[connectStatus], bg = backg, fg = foreg, x = 1.5*stdw, y = 12*stdh + 12*stdh2, width = stdw, height = stdh)
+      connecttest = createButton(fenster, text = langdicts[connectChange], command = testforconnect, bg = backg, fg = foreg,
+                                 x = 1.5*stdw + 1*stdw + 2*stdw2, y = 12*stdh + 12*stdh2, width = stdw, height = stdh)
+
 
 
    #######################################################################################################################################################################################################
