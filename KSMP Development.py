@@ -42,7 +42,7 @@ ImportVariable()
 #############################################################################################################################################################################################################################################
 ####Bis Anmeldefenster
 def BisAnmeldung():
-   global currentLanguage,langdicts,socket1,connected,connect
+   global currentLanguage,langdicts,socket1,connected,doConnect
    #Pygame einstellen
    pygame.mixer.init()
    pygame.display.init()
@@ -82,7 +82,7 @@ def BisAnmeldung():
          
    Binding()
 
-   def Connection():
+   def connect():
       global connected,connected2,IsClosed
       connected2 = False
 
@@ -179,26 +179,25 @@ def BisAnmeldung():
          sys.exit()
 
    try:
-      connect = open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0]
+      doConnect = int(open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0])
    except:
       connect2 = open("options/testforconnect.txt", "w", encoding="UTF-8")
-      connect2.write("True")
+      connect2.write(str(int(True)))
       connect2.close()
-      connect = open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0]
-      
-   if connect == "True":
-      Connection()
-   else:
-      pass
+      doConnect = int(open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0])
+
+   if doConnect:
+      connect()
 
    def sprache2():
       lang0 = open("langdict/Sprache", "w", encoding="UTF-8")
       lang0.close()
+      version = "InDev 1.01.03"
       EN = open("langdict/EN.txt", "wb")
-      pickle.dump({"Version":"InDev 1.01.03","Neue Lieder":"New songs","VL":"Available songs","Ausgewählte Lieder":"Chosen songs","Eigene Lieder":"Own songs","Start":"Start","Keine Verbindung":"No connection","Lied hinzufügen":"Add song","Lied entfernen":"Remove song","Auswählen":"Select","Einstellungen":"Settings","Lautstärke":"Volume","Sprache":"Language","Auflösung":"Dimensions","Registrieren":"Register","Anmeldung":"Login","Benutzername":"Username","Passwort":"Password","Fortfahren":"Continue","Offlinemodus":"Offlinemode","Benutzername zu kurz":"Username too short","Passwort zu kurz":"Password too short","Profil":"Profile","Hilfe und Support":"Help and Support","Fülle alles aus":"Fill in all Entries","Verbinden":"Connect","NVerbinden":"Do not connect","Anaus":"Turn On/Off","FH":"Colored Background","Aktivieren":"Activate","AI":"Additional Information","Künstler":"Creator","Songs":"Songs","by":"by","Fullscreen":"Fullscreen","NL":"Add new Song","SN":"Songtitle:","ans":"Add new song","Click":"Click on the songtitle to add a new one.","Dur":"Duration:","FN":"Filename:","desc":"Description","Finished":"Files created!","Open":"Open...","SL":"Delete Song","DC":"Do you want to delete this song?","FI":"The entries with stars(*) have to be filled.","CV":"Turn CustomVolume on","CV2":"Turn CustomVolume off","NC":"Do not use ß,ä,ö,ü or ? in the filename.","FNF":"File not found"},EN)
-      EN.close()           #1                            #2               #3                                     #4                             #5                  #6                         #7                                #8                          #9                        #10                      #11                     #12                #13                    #14                         #15                    #16                    #17                   #18                     #19                       #20                                  #21                                     #22                           #23                           #24                                  #25                               #26                    #27                      #28                #29                               #30             #31                                 #32               #33          #34               #35               #36                 #37                #38                    #39                                              #40              #41                #42                      #43                     #44            #45                #46                                     #47                                                 #48                          #49                          #50
+      pickle.dump({"Version":version,"Neue Lieder":"New songs","VL":"Available songs","Ausgewählte Lieder":"Chosen songs","Eigene Lieder":"Own songs","Start":"Start","Keine Verbindung":"No connection","Lied hinzufügen":"Add song","Lied entfernen":"Remove song","Auswählen":"Select","Einstellungen":"Settings","Lautstärke":"Volume","Sprache":"Language","Auflösung":"Dimensions","Registrieren":"Register","Anmeldung":"Login","Benutzername":"Username","Passwort":"Password","Fortfahren":"Continue","Offlinemodus":"Offlinemode","Benutzername zu kurz":"Username too short","Passwort zu kurz":"Password too short","Profil":"Profile","Hilfe und Support":"Help and Support","Fülle alles aus":"Fill in all Entries","Connect":"Connect","ConnectTrue":"Do doConnect","ConnectFalse":"Do not doConnect","Anaus":"Turn On/Off","FH":"Colored Background","Aktivieren":"Activate","AI":"Additional Information","Künstler":"Creator","Songs":"Songs","by":"by","Fullscreen":"Fullscreen","NL":"Add new Song","SN":"Songtitle:","ans":"Add new song","Click":"Click on the songtitle to add a new one.","Dur":"Duration:","FN":"Filename:","desc":"Description","Finished":"Files created!","Open":"Open...","SL":"Delete Song","DC":"Do you want to delete this song?","FI":"The entries with stars(*) have to be filled.","CV":"Turn CustomVolume on","CV2":"Turn CustomVolume off","NC":"Do not use ß,ä,ö,ü or ? in the filename.","FNF":"File not found"},EN)
+      EN.close()           #1                    #2               #3                                     #4                             #5                  #6                         #7                                #8                          #9                        #10                      #11                     #12                #13                    #14                         #15                    #16                    #17                   #18                     #19                       #20                                  #21                                     #22                           #23                           #24                                  #25                             #26                     #27                         #28                      #29                #30                               #31             #32                                 #33               #34          #35               #36               #37                 #38                #39                    #40                                              #41              #42                #43                      #44                     #45            #46                #47                                     #48                                                 #49                          #50                          #51                                              #52
       DE = open("langdict/DE.txt", "wb")
-      pickle.dump({"Version":"InDev 1.01.03","Neue Lieder":"Neue Lieder","VL":"Verfügbare Lieder","Ausgewählte Lieder":"Ausgewählte Lieder","Eigene Lieder":"Eigene Lieder","Start":"Start","Keine Verbindung":"Keine Verbindung","Lied hinzufügen":"Lied hinzufügen","Lied entfernen":"Lied entfernen","Auswählen":"Auswählen","Einstellungen":"Einstellungen","Lautstärke":"Lautstärke","Sprache":"Sprache","Auflösung":"Dimensionen","Registrieren":"Registrieren","Anmeldung":"Anmeldung","Benutzername":"Benutzername","Passwort":"Passwort","Fortfahren":"Fortfahren","Offlinemodus":"Offlinemodus","Benutzername zu kurz":"Benutzername zu kurz","Passwort zu kurz":"Passwort zu kurz","Profil":"Profil","Hilfe und Support":"Hilfe und Support","Fülle alles aus":"Fülle alles aus","Verbinden":"Verbinden","NVerbinden":"Nicht verbinden","Anaus":"An-/Ausschalten","FH":"Farblicher Hintergrund","Aktivieren":"Aktivieren","AI":"Zusätzliche Informationen","Künstler":"Künstler","Songs":"Songs","by":"von","Fullscreen":"Vollbild","NL":"Song hinzufügen","SN":"Songtitel:","ans":"Neuer Song","Click":"Klicke auf den Songtitel, um einen Song hinzuzufügen","Dur":"Dauer:","FN":"Dateiname:","desc":"Beschreibung","Finished":"Dateien erstellt!","Open":"Öffnen...","SL":"Song löschen","DC":"Willst du diesen Song löschen?","FI":"Die Felder mit Sternen(*) müssen ausgefüllt werden.","CV":"Schalte CustomVolume an","CV2":"Schalte CustomVolume aus","NC":"Du darfst ß,ä,ö,ü oder ?\nnicht im Dateinamen verwenden.","FNF":"Datei nicht gefunden"},DE)
+      pickle.dump({"Version":version,"Neue Lieder":"Neue Lieder","VL":"Verfügbare Lieder","Ausgewählte Lieder":"Ausgewählte Lieder","Eigene Lieder":"Eigene Lieder","Start":"Start","Keine Verbindung":"Keine Verbindung","Lied hinzufügen":"Lied hinzufügen","Lied entfernen":"Lied entfernen","Auswählen":"Auswählen","Einstellungen":"Einstellungen","Lautstärke":"Lautstärke","Sprache":"Sprache","Auflösung":"Dimensionen","Registrieren":"Registrieren","Anmeldung":"Anmeldung","Benutzername":"Benutzername","Passwort":"Passwort","Fortfahren":"Fortfahren","Offlinemodus":"Offlinemodus","Benutzername zu kurz":"Benutzername zu kurz","Passwort zu kurz":"Passwort zu kurz","Profil":"Profil","Hilfe und Support":"Hilfe und Support","Fülle alles aus":"Fülle alles aus", "Connect":"Verbinden","ConnectTrue":"Verbinden","ConnectFalse":"Nicht verbinden","Anaus":"An-/Ausschalten","FH":"Farblicher Hintergrund","Aktivieren":"Aktivieren","AI":"Zusätzliche Informationen","Künstler":"Künstler","Songs":"Songs","by":"von","Fullscreen":"Vollbild","NL":"Song hinzufügen","SN":"Songtitel:","ans":"Neuer Song","Click":"Klicke auf den Songtitel, um einen Song hinzuzufügen","Dur":"Dauer:","FN":"Dateiname:","desc":"Beschreibung","Finished":"Dateien erstellt!","Open":"Öffnen...","SL":"Song löschen","DC":"Willst du diesen Song löschen?","FI":"Die Felder mit Sternen(*) müssen ausgefüllt werden.","CV":"Schalte CustomVolume an","CV2":"Schalte CustomVolume aus","NC":"Du darfst ß,ä,ö,ü oder ?\nnicht im Dateinamen verwenden.","FNF":"Datei nicht gefunden"},DE)
       DE.close()
    try:
       lang0 =  open("langdict/Sprache", "w", encoding="UTF-8")
@@ -1445,6 +1444,16 @@ def Mainwindow():
 
       ############################
       ####Verbinde mit Server
+      def testforconnect3(doConnect):
+         connect2 = open("options/testforconnect.txt", "w", encoding="UTF-8")
+         connect2.write(str(int(not doConnect)))
+         connect2.close()
+
+         connecttest.config(text=langdicts["Connect"+str(bool(doConnect))])
+         connecttest.config(command = lambda: testforconnect3(int(not doConnect)))
+         connectionnow.config(text=langdicts["Connect"+str(not doConnect)])
+
+      
       def testforconnect():
          connect = open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0]
          if connect == "True":
@@ -1587,21 +1596,15 @@ def Mainwindow():
       createLabel(fenster, text = langdicts["FH"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 10*stdh + 10*stdh2, width = None, height = stdh)
 
       #Erstellen der Verbindungselemente
-      createLabel(fenster, text = langdicts["Verbinden"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 12*stdh + 12*stdh2, width = None, height = stdh)
+      createLabel(fenster, text = langdicts["Connect"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 12*stdh + 12*stdh2, width = None, height = stdh)
       cfile = open("options/testforconnect.txt", "r", encoding="UTF-8")
-      connect = cfile.readlines()[0]
+      connect = int(cfile.readlines()[0])
       cfile.close()
-      connectStatus = ""
-      connectChange = ""
-      if connect == "True":
-          connectStatus = "Verbinden"
-          connectChange = "NVerbinden"
-      else:
-          connectStatus = "NVerbinden"
-          connectChange = "Verbinden"
+      connectStatus = "Connect" + str(bool(    connect))
+      connectChange = "Connect" + str(bool(not connect))
           
       connectionnow = createLabel(fenster, text = langdicts[connectStatus], bg = backg, fg = foreg, x = 1.5*stdw, y = 12*stdh + 12*stdh2, width = stdw, height = stdh)
-      connecttest = createButton(fenster, text = langdicts[connectChange], command = testforconnect, bg = backg, fg = foreg,
+      connecttest = createButton(fenster, text = langdicts[connectChange], command = lambda: testforconnect3(connect), bg = backg, fg = foreg,
                                  x = 1.5*stdw + 1*stdw + 2*stdw2, y = 12*stdh + 12*stdh2, width = stdw, height = stdh)
 
 
