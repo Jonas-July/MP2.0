@@ -677,7 +677,7 @@ def Fenster():
    stdh=hfen/26
    stdh2= hfen*0.0026
    
-   if cv2 == "True":
+   if cv2:
       cvtextvar = "CV2"
    else:
       cvtextvar = "CV"
@@ -1273,107 +1273,8 @@ def Mainwindow():
       global isActive
       isActive="Settings"
       
-      #############################
-      ####Einstellen der Lautstärke
-      
-
-      def lauter():
-         global vol
-         if vol < 1:
-            if int(vol*100) > vol*100:
-               vol = (int(vol*100)+1)/100
-            vol = vol+0.01
-            vol1 = Label(fenster,text=int(vol*100),bg=backg,fg=foreg)
-            vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-            pygame.mixer.music.set_volume(vol)
-            newvol = open("options/vol.txt", "w", encoding="UTF-8")
-            newvol.write(str(vol))
-            newvol.close()
-         
-      def leiser():
-         global vol
-         if vol > 0:
-            if int(vol*100) > vol*100:
-               vol = int(vol*100)+1
-            vol = vol-0.01
-            vol1 = Label(fenster,text=int(vol*100),bg=backg,fg=foreg)
-            vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-            pygame.mixer.music.set_volume(vol)
-            newvol = open("options/vol.txt", "w", encoding="UTF-8")
-            newvol.write(str(vol))
-            newvol.close()
-
-      def lauter2():
-         global vol
-         if vol < 0.91:
-            if int(vol*100) > vol*100:
-               vol = int(vol*100)+1
-            vol = vol+0.1
-            vol1 = Label(fenster,text=round(vol*100),bg=backg,fg=foreg)
-            vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-            pygame.mixer.music.set_volume(vol)
-            newvol = open("options/vol.txt", "w", encoding="UTF-8")
-            newvol.write(str(vol))
-            newvol.close()
-         else:
-            vol = 1
-            vol1 = Label(fenster,text=round(vol*100),bg=backg,fg=foreg)
-            vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-            pygame.mixer.music.set_volume(vol)
-            newvol = open("options/vol.txt", "w", encoding="UTF-8")
-            newvol.write(str(vol))
-            newvol.close()            
-            
-      def leiser2():
-         global vol
-         if vol > 0.1:
-            if int(vol*100) > vol*100:
-               vol = int(vol*100)+1
-            vol = vol-0.1
-            vol1 = Label(fenster,text=round(vol*100),bg=backg,fg=foreg)
-            vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-            pygame.mixer.music.set_volume(vol)
-            newvol = open("options/vol.txt", "w", encoding="UTF-8")
-            newvol.write(str(vol))
-            newvol.close()
-         else:
-            vol = 0
-            vol1 = Label(fenster,text=round(vol*100),bg=backg,fg=foreg)
-            vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-            pygame.mixer.music.set_volume(vol)
-            newvol = open("options/vol.txt", "w", encoding="UTF-8")
-            newvol.write(str(vol))
-            newvol.close()
-
-      def AnAus():
-         global vol,vol2
-         if vol > 0:
-            vol2 = vol
-            vol = 0
-         elif vol == 0:
-            vol = vol2
-         vol1 = Label(fenster,text=int(vol*100),bg=backg,fg=foreg)
-         vol1.place(x=1.5*stdw+2*stdw*0.4+1.5*stdw2,y=2*stdh+2*stdh2,height=stdh,width=2*stdw/5)
-         pygame.mixer.music.set_volume(vol)
-         
-      def CV(): #not implemented
-         cv = open("options/CustomVolume.txt", "r", encoding="UTF-8")
-         cv2 = cv.readline()
-         cv.close()
-         if cv2 == "True":
-            cv = open("options/CustomVolume.txt", "w", encoding="UTF-8")
-            cv.write("False")
-            cv.close()
-         else:
-            cv = open("options/CustomVolume.txt", "w", encoding="UTF-8")
-            cv.write("True")
-            cv.close()
-
-
-      #########################################################################################################################################
-               
-      ################################
-      ####create functions for widgets      
+      #################################
+      ####functions for widget creation      
 
       def createLabel(master, text, bg, fg, x, y, width, height):
 
@@ -1402,6 +1303,8 @@ def Mainwindow():
                                       bg = bg, fg = fg, activebackground = bg, activeforeground = fg)
             radioButton.place(x = startX + index*incX, y = startY + index*incY, width = width, height = height)
 
+      ################################
+      #functions for settings creation
 
       def createSettingsNavigationBar(master):
                 
@@ -1422,17 +1325,36 @@ def Mainwindow():
          def changeVolume(amount):
             global vol
             newVolume = round((vol*100 + amount))/100
-            if 0 <= newVolume <= 1:
-               currentVolLabel.config(text = round(newVolume*100))
-               pygame.mixer.music.set_volume(newVolume)
-               vol = newVolume
-
-               newvol = open("options/vol.txt", "w", encoding="UTF-8")
-               newvol.write(str(newVolume))
-               newvol.close()
+            if newVolume < 0 or newVolume > 1:
+               newVolume = 1/2 * (1 + newVolume/abs(newVolume))
             
-            else:
-               pass
+            currentVolLabel.config(text = round(newVolume*100))
+            pygame.mixer.music.set_volume(newVolume)
+            vol = newVolume
+
+            newvol = open("options/vol.txt", "w", encoding="UTF-8")
+            newvol.write(str(newVolume))
+            newvol.close()
+
+         def changeMute():
+            global vol,vol2
+            if vol > 0:
+               vol2 = vol
+               vol = 0
+            elif vol == 0:
+               vol = vol2
+            currentVolLabel.config(text = round(vol*100))
+            pygame.mixer.music.set_volume(vol)
+            
+         def changeCustomVolumeActivation(): #not implemented
+            global enableCustomVolume
+            cv = open("options/CustomVolume.txt", "r", encoding="UTF-8")
+            enableCustomVolume = int(cv.readline())
+            cv.close()
+            
+            cv = open("options/CustomVolume.txt", "w", encoding="UTF-8")
+            cv.write(str(int(not enableCustomVolume)))
+            cv.close()
 
          createLabel(master, text = langdicts["Lautstärke"] + ":", bg = backg, fg = foreg, x = 0.5*stdw            , y = 2*stdh + 2*stdh2, height = stdh, width = None    )
          currentVolLabel = createLabel(master, text = int(vol*100)                 , bg = backg, fg = foreg, x = 2.3*stdw + 1.5*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 2/5*stdw)
@@ -1446,9 +1368,9 @@ def Mainwindow():
          createButton(master, text = "-10", command = lambda: changeVolume(-10), bg = backg, fg = foreg,
                       x = 1.5*stdw + 0*0.4*stdw + 0*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 2/5*stdw)
       
-         createButton(master, text = langdicts["Anaus"]  , command = AnAus, bg = backg, fg = foreg,
+         createButton(master, text = langdicts["Anaus"]  , command = changeMute, bg = backg, fg = foreg,
                       x = 1.5*stdw + 5*0.4*stdw + 4*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 4/5*stdw)
-         createButton(master, text = langdicts[cvtextvar], command = CV   , bg = backg, fg = foreg,
+         createButton(master, text = langdicts[cvtextvar], command = changeCustomVolumeActivation   , bg = backg, fg = foreg,
                       x = 2.3*stdw + 5*0.4*stdw + 5*stdw2, y = 2*stdh + 2*stdh2, height = stdh, width = 4/5*stdw)
 
       def createLanguageSettings(master):
@@ -1573,13 +1495,13 @@ def Mainwindow():
          
       def createConnectSettings(master):
 
-         def testforconnect3(doConnect):
+         def changeConnecting(doConnect):
             connect2 = open("options/testforconnect.txt", "w", encoding="UTF-8")
             connect2.write(str(int(not doConnect)))
             connect2.close()
 
             connecttest.config(text=langdicts["Connect"+str(bool(doConnect))])
-            connecttest.config(command = lambda: testforconnect3(int(not doConnect)))
+            connecttest.config(command = lambda: changeConnecting(int(not doConnect)))
             connectionnow.config(text=langdicts["Connect"+str(not doConnect)])
 
          createLabel(master, text = langdicts["Connect"] + ":", bg = backg, fg = foreg, x = 0.5*stdw, y = 12*stdh + 12*stdh2, width = None, height = stdh)
@@ -1592,7 +1514,7 @@ def Mainwindow():
          connectChange = "Connect" + str(bool(not connect))
 
          connectionnow = createLabel(master, text = langdicts[connectStatus], bg = backg, fg = foreg, x = 1.5*stdw, y = 12*stdh + 12*stdh2, width = stdw, height = stdh)
-         connecttest = createButton(master, text = langdicts[connectChange], command = lambda: testforconnect3(connect), bg = backg, fg = foreg,
+         connecttest = createButton(master, text = langdicts[connectChange], command = lambda: changeConnecting(connect), bg = backg, fg = foreg,
                                     x = 1.5*stdw + 1*stdw + 2*stdw2, y = 12*stdh + 12*stdh2, width = stdw, height = stdh)
 
 
