@@ -1453,30 +1453,8 @@ def Mainwindow():
          connecttest.config(command = lambda: testforconnect3(int(not doConnect)))
          connectionnow.config(text=langdicts["Connect"+str(not doConnect)])
 
-      
-      def testforconnect():
-         connect = open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0]
-         if connect == "True":
-            connect2 = open("options/testforconnect.txt", "w", encoding="UTF-8")
-            connect2.write("False")
-            connect2.close()
-            connecttest.config(text=langdicts["Verbinden"])
-            connecttest.config(command=testforconnect2)
-            connectionnow.config(text=langdicts["NVerbinden"])
-         else:
-            print("Error1")
+      #############################################################################################################################################################
 
-      def testforconnect2():
-         connect = open("options/testforconnect.txt", "r", encoding="UTF-8").readlines()[0]
-         if connect == "False":
-            connect2 = open("options/testforconnect.txt", "w", encoding="UTF-8")
-            connect2.write("True")
-            connect2.close()
-            connecttest.config(text=langdicts["NVerbinden"])
-            connecttest.config(command=testforconnect)
-            connectionnow.config(text=langdicts["Verbinden"])
-         else:
-            print("Error2")
 
       ################################
       ####create functions for widgets      
